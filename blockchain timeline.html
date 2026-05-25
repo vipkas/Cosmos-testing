@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blockchain Project — Testing Timeline</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --bg2: #111318;
+    --bg3: #181b22;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --dim: #3a3f4a;
+
+    --teal: #00d4b4;
+    --teal-dim: rgba(0,212,180,0.12);
+    --teal-border: rgba(0,212,180,0.25);
+
+    --purple: #a78bfa;
+    --purple-dim: rgba(167,139,250,0.12);
+    --purple-border: rgba(167,139,250,0.25);
+
+    --coral: #fb7185;
+    --coral-dim: rgba(251,113,133,0.12);
+    --coral-border: rgba(251,113,133,0.25);
+
+    --amber: #fbbf24;
+    --amber-dim: rgba(251,191,36,0.1);
+    --amber-border: rgba(251,191,36,0.25);
+
+    --blue: #60a5fa;
+    --blue-dim: rgba(96,165,250,0.1);
+    --blue-border: rgba(96,165,250,0.25);
+
+    --green: #34d399;
+    --green-dim: rgba(52,211,153,0.1);
+    --green-border: rgba(52,211,153,0.25);
+
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    padding: 48px 40px 32px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -60px; left: -60px;
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(0,212,180,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .header-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--teal);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .header h1 {
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .header-sub {
+    color: var(--muted);
+    font-size: 13px;
+    font-family: var(--mono);
+  }
+  .header-meta {
+    display: flex;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .meta-chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 1px solid var(--border2);
+    color: var(--muted);
+  }
+  .meta-chip span { color: var(--text); margin-left: 6px; }
+
+  /* ── NAV TABS ── */
+  .nav {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    padding: 14px 20px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+    user-select: none;
+  }
+  .nav-tab:hover { color: var(--text); }
+  .nav-tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+
+  /* ── MAIN LAYOUT ── */
+  .main { padding: 32px 40px; max-width: 1100px; }
+
+  /* ── SECTION ── */
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* ── TIMELINE VIEW ── */
+  .timeline-grid {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 0;
+  }
+  .week-col {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--dim);
+    padding-top: 20px;
+    line-height: 1;
+    text-align: right;
+    padding-right: 20px;
+    border-right: 1px solid var(--border);
+    position: relative;
+  }
+  .week-col::after {
+    content: '';
+    position: absolute;
+    right: -4px; top: 26px;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--dim);
+  }
+  .phase-card {
+    margin-left: 24px;
+    margin-bottom: 4px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--bg2);
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .phase-card:hover { border-color: var(--border2); }
+  .phase-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    cursor: pointer;
+    user-select: none;
+  }
+  .phase-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .phase-title-wrap { flex: 1; }
+  .phase-title {
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+  .phase-subtitle {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .phase-weeks {
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border2);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .phase-toggle {
+    color: var(--muted);
+    font-size: 12px;
+    transition: transform 0.2s;
+  }
+  .phase-card.open .phase-toggle { transform: rotate(180deg); }
+  .phase-body { display: none; border-top: 1px solid var(--border); }
+  .phase-card.open .phase-body { display: block; }
+
+  /* ── PHASE BODY SECTIONS ── */
+  .body-section {
+    padding: 20px 20px 0;
+  }
+  .body-section:last-child { padding-bottom: 20px; }
+  .body-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .body-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── WEEK DETAIL GRID ── */
+  .week-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .week-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .week-box-title {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .week-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .week-box ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .week-box li {
+    font-size: 12px;
+    color: var(--muted);
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    line-height: 1.4;
+  }
+  .week-box li::before {
+    content: '›';
+    color: var(--dim);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── TESTING TABLE ── */
+  .test-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+    font-size: 12px;
+  }
+  .test-table th {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  .test-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.5;
+    color: #c8cad0;
+  }
+  .test-table tr:last-child td { border-bottom: none; }
+  .test-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .tag-pass { background: var(--green-dim); color: var(--green); border: 1px solid var(--green-border); }
+  .tag-warn { background: var(--amber-dim); color: var(--amber); border: 1px solid var(--amber-border); }
+  .tag-fail { background: var(--coral-dim); color: var(--coral); border: 1px solid var(--coral-border); }
+  .tag-info { background: var(--blue-dim); color: var(--blue); border: 1px solid var(--blue-border); }
+
+  /* ── CHECKLIST SECTION ── */
+  .checklist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 24px;
+  }
+  .checklist-phase {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .checklist-phase-header {
+    padding: 14px 18px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .checklist-phase-body {
+    padding: 14px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .check-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 12px;
+    line-height: 1.4;
+    cursor: pointer;
+    user-select: none;
+    transition: opacity 0.15s;
+  }
+  .check-item:hover { opacity: 0.85; }
+  .check-box {
+    width: 16px; height: 16px;
+    border-radius: 3px;
+    border: 1.5px solid var(--dim);
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s, border-color 0.15s;
+    font-size: 10px;
+  }
+  .check-item.checked .check-box {
+    background: var(--green);
+    border-color: var(--green);
+    color: #0a0c10;
+  }
+  .check-item.checked .check-text {
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+  .check-text {
+    color: #c8cad0;
+    transition: color 0.15s;
+  }
+  .check-param {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 2px;
+    display: block;
+  }
+  .check-summary {
+    margin-top: 16px;
+    padding: 14px 18px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .check-summary-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .check-summary-bar {
+    flex: 1;
+    min-width: 120px;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .check-summary-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+  }
+  .check-summary-count {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--green);
+    white-space: nowrap;
+  }
+
+  /* ── NODE TABLE ── */
+  .node-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .node-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px;
+  }
+  .node-flag {
+    font-size: 22px;
+    margin-bottom: 6px;
+    line-height: 1;
+  }
+  .node-name {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+  .node-region {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .node-role {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin-bottom: 6px;
+  }
+  .role-validator { background: var(--teal-dim); color: var(--teal); border: 1px solid var(--teal-border); }
+  .role-observer { background: var(--amber-dim); color: var(--amber); border: 1px solid var(--amber-border); }
+  .node-provider {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--dim);
+  }
+
+  /* ── CODE BLOCK ── */
+  .code-block {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 16px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: #a8b4c0;
+    line-height: 1.7;
+    margin-bottom: 12px;
+    overflow-x: auto;
+  }
+  .code-block .c-green { color: var(--teal); }
+  .code-block .c-muted { color: var(--muted); }
+  .code-block .c-amber { color: var(--amber); }
+  .code-block .c-purple { color: var(--purple); }
+
+  /* ── METRIC CARDS ── */
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .metric-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .metric-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .metric-value {
+    font-family: var(--mono);
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .metric-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+  }
+  .metric-fail {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--coral);
+    margin-top: 4px;
+  }
+
+  /* colors per phase */
+  .f1 { --pc: var(--teal); --pd: var(--teal-dim); --pb: var(--teal-border); }
+  .f2 { --pc: var(--purple); --pd: var(--purple-dim); --pb: var(--purple-border); }
+  .f3 { --pc: var(--coral); --pd: var(--coral-dim); --pb: var(--coral-border); }
+  .f4 { --pc: var(--amber); --pd: var(--amber-dim); --pb: var(--amber-border); }
+  .f5 { --pc: var(--blue); --pd: var(--blue-dim); --pb: var(--blue-border); }
+
+  .phase-card { border-left: 3px solid var(--pc, transparent); }
+  .phase-num { background: var(--pd); color: var(--pc); }
+  .phase-title { color: var(--pc); }
+  .week-dot { background: var(--pc); }
+  .checklist-phase-header { background: var(--pd); color: var(--pc); border-bottom-color: var(--pb); }
+
+  /* timeline connector dots */
+  .tl-row { display: contents; }
+  .tl-row .week-col.active::after { background: var(--teal); box-shadow: 0 0 0 3px var(--teal-dim); }
+
+  .spacer { height: 8px; }
+
+  /* Reset button */
+  .reset-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 6px 14px;
+    border-radius: 5px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .reset-btn:hover { color: var(--text); border-color: var(--text); }
+
+  /* export btn */
+  .export-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 6px 14px;
+    border-radius: 5px;
+    border: 1px solid var(--teal-border);
+    background: var(--teal-dim);
+    color: var(--teal);
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+  .export-btn:hover { opacity: 0.8; }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .topbar-title {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .topbar-actions {
+    display: flex;
+    gap: 8px;
+  }
+
+  @media (max-width: 600px) {
+    .main { padding: 24px 20px; }
+    .header { padding: 32px 20px 24px; }
+    .nav { padding: 0 20px; }
+    .week-detail-grid { grid-template-columns: 1fr; }
+    .node-grid { grid-template-columns: 1fr 1fr; }
+    .metric-grid { grid-template-columns: 1fr 1fr; }
+    .checklist-grid { grid-template-columns: 1fr; }
+    .timeline-grid { grid-template-columns: 56px 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-eyebrow">Testing Documentation</div>
+  <h1>Blockchain Project<br>Testing Timeline &amp; Checklist</h1>
+  <div class="header-sub">Cosmos SDK + Tendermint BFT · 10 Minggu · 6 Node Global</div>
+  <div class="header-meta">
+    <div class="meta-chip">Total Durasi <span>10 Minggu</span></div>
+    <div class="meta-chip">Fase <span>5 Fase</span></div>
+    <div class="meta-chip">Node <span>6 Lokasi</span></div>
+    <div class="meta-chip">Target TPS <span>&gt; 300</span></div>
+    <div class="meta-chip">Framework <span>Cosmos SDK</span></div>
+  </div>
+</div>
+
+<nav class="nav">
+  <div class="nav-tab active" onclick="switchTab('timeline')">Timeline</div>
+  <div class="nav-tab" onclick="switchTab('nodes')">Node Setup</div>
+  <div class="nav-tab" onclick="switchTab('metrics')">Parameter Metrik</div>
+  <div class="nav-tab" onclick="switchTab('checklist')">Output Checklist</div>
+</nav>
+
+<div class="main">
+
+  <!-- ══════════════════════════════ TIMELINE ══════════════════════════════ -->
+  <div id="sec-timeline" class="section active">
+    <div class="timeline-grid">
+
+      <!-- FASE 1 -->
+      <div class="week-col active">W1–2</div>
+      <div class="phase-card f1" id="card-1">
+        <div class="phase-header" onclick="toggleCard(1)">
+          <div class="phase-num">01</div>
+          <div class="phase-title-wrap">
+            <div class="phase-title">Local Devnet</div>
+            <div class="phase-subtitle">Setup infrastruktur chain lokal &amp; validasi konsensus dasar</div>
+          </div>
+          <div class="phase-weeks">Minggu 1–2</div>
+          <div class="phase-toggle">▼</div>
+        </div>
+        <div class="phase-body">
+          <div class="body-section">
+            <div class="body-label">Rincian per Minggu</div>
+            <div class="week-detail-grid">
+              <div class="week-box">
+                <div class="week-box-title"><span class="week-dot f1" style="background:var(--teal)"></span>Minggu 1</div>
+                <ul>
+                  <li>Install Cosmos SDK &amp; Go environment</li>
+                  <li>Init 4 validator node lokal</li>
+                  <li>Konfigurasi genesis.json (chain-id, supply awal)</li>
+                  <li>Setup validator keys &amp; delegasi awal</li>
+                  <li>Start devnet &amp; pantau log konsensus</li>
+                </ul>
+              </div>
+              <div class="week-box">
+                <div class="week-box-title"><span class="week-dot" style="background:var(--teal)"></span>Minggu 2</div>
+                <ul>
+                  <li>Uji DPoS rotation (tambah/hapus validator)</li>
+                  <li>Transaksi kirim token antar address</li>
+                  <li>Submit &amp; vote governance proposal sederhana</li>
+                  <li>Rekam block time selama 1000 blok</li>
+                  <li>Analisis log untuk anomali fork</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="body-section">
+            <div class="body-label">Skenario Pengujian</div>
+            <table class="test-table">
+              <thead><tr><th>ID</th><th>Skenario</th><th>Input</th><th>Expected Output</th><th>Metrik</th></tr></thead>
+              <tbody>
+                <tr><td class="c-mono" style="font-family:var(--mono);font-size:11px;color:var(--teal)">T1-01</td><td>Chain start 4 validator</td><td>4 node genesis identik</td><td>Block #1 ter-commit semua node</td><td>Block time &lt; 2s</td></tr>
+                <tr><td class="c-mono" style="font-family:var(--mono);font-size:11px;color:var(--teal)">T1-02</td><td>1000 blok tanpa fork</td><td>Transaksi normal berjalan</td><td>Semua validator 100% sign</td><td>Miss rate &lt; 0.1%</td></tr>
+                <tr><td class="c-mono" style="font-family:var(--mono);font-size:11px;color:var(--teal)">T1-03</td><td>Validator masuk DPoS</td><td>Delegasi token ke validator baru</td><td>Validator masuk active set</td><td>Aktif dalam 1 epoch</td></tr>
+                <tr><td class="c-mono" style="font-family:var(--mono);font-size:11px;color:var(--teal)">T1-04</td><td>Validator keluar DPoS</td><td>Undelegate semua token</td><td>Validator keluar, jailing jika slash</td><td>Tidak ada block halt</td></tr>
+                <tr><td class="c-mono" style="font-family:var(--mono);font-size:11px;color:var(--teal)">T1-05</td><td>Transfer token</td><td>Send 100 token A→B</td><td>Saldo B +100, A -100-fee</td><td>Finality &lt; 6s</td></tr>
+                <tr><td class="c-mono" style="font-family:var(--mono);font-size:11px;color:var(--teal)">T1-06</td><td>Governance proposal</td><td>Submit parameter change proposal</td><td>Proposal muncul, bisa divote</td><td>Vote terekam on-chain</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="body-section">
+            <div class="body-label">Command Setup</div>
+            <div class="code-block">
+<span class="c-muted"># Init 4 validator node</span>
+<span class="c-green">gaiad</span> init validator1 --chain-id blockchain-devnet<br>
+<span class="c-green">gaiad</span> init validator2 --chain-id blockchain-devnet<br>
+<span class="c-green">gaiad</span> init validator3 --chain-id blockchain-devnet<br>
+<span class="c-green">gaiad</span> init validator4 --chain-id blockchain-devnet<br><br>
+<span class="c-muted"># Tambah genesis account</span>
+<span class="c-green">gaiad</span> add-genesis-account <span class="c-amber">$VAL1_ADDR</span> 1000000000stake<br>
+<span class="c-green">gaiad</span> gentx validator1 100000000stake --chain-id blockchain-devnet<br>
+<span class="c-green">gaiad</span> collect-gentxs<br><br>
+<span class="c-muted"># Mulai node</span>
+<span class="c-green">gaiad</span> start --log_level info
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="spacer"></div>
+
+      <!-- FASE 2 -->
+      <div class="week-col">W3–4</div>
+      <div class="phase-card f2" id="card-2">
+        <div class="phase-header" onclick="toggleCard(2)">
+          <div class="phase-num">02</div>
+          <div class="phase-title-wrap">
+            <div class="phase-title">Identity &amp; Transaction Module</div>
+            <div class="phase-subtitle">Verifikasi identitas on-chain, anti-double identity, signature validation</div>
+          </div>
+          <div class="phase-weeks">Minggu 3–4</div>
+          <div class="phase-toggle">▼</div>
+        </div>
+        <div class="phase-body">
+          <div class="body-section">
+            <div class="body-label">Rincian per Minggu</div>
+            <div class="week-detail-grid">
+              <div class="week-box">
+                <div class="week-box-title"><span class="week-dot" style="background:var(--purple)"></span>Minggu 3</div>
+                <ul>
+                  <li>Deploy custom Identity Module ke devnet</li>
+                  <li>Uji register identitas baru on-chain</li>
+                  <li>Validasi signature transaksi identitas</li>
+                  <li>Simulasi duplikasi identitas &amp; verifikasi penolakan</li>
+                </ul>
+              </div>
+              <div class="week-box">
+                <div class="week-box-title"><span class="week-dot" style="background:var(--purple)"></span>Minggu 4</div>
+                <ul>
+                  <li>Uji identity revocation flow</li>
+                  <li>Verifikasi transfer token via identitas</li>
+                  <li>Load test ringan: 50 identitas simultan</li>
+                  <li>Dokumentasi edge case &amp; error handling</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="body-section">
+            <div class="body-label">Skenario Pengujian</div>
+            <table class="test-table">
+              <thead><tr><th>ID</th><th>Skenario</th><th>Input</th><th>Expected Output</th><th>Metrik</th></tr></thead>
+              <tbody>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--purple)">T2-01</td><td>Register identitas baru</td><td>Address + public key</td><td>Identitas tersimpan on-chain</td><td>Latency &lt; 300ms</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--purple)">T2-02</td><td>Duplikasi identitas</td><td>Address yang sudah terdaftar</td><td>Transaksi ditolak, error returned</td><td>100% tolak</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--purple)">T2-03</td><td>Verifikasi signature valid</td><td>Tx dengan signature benar</td><td>Tx diterima &amp; dieksekusi</td><td>Pass rate 100%</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--purple)">T2-04</td><td>Verifikasi signature invalid</td><td>Tx dengan signature salah</td><td>Tx ditolak, tidak masuk mempool</td><td>0% lolos</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--purple)">T2-05</td><td>Revoke identitas</td><td>Owner kirim revoke tx</td><td>Identitas nonaktif, akses dicabut</td><td>Efektif &lt; 2 blok</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--purple)">T2-06</td><td>50 registrasi simultan</td><td>50 tx register bersamaan</td><td>Semua sukses, no collision</td><td>0 konflik</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="spacer"></div>
+
+      <!-- FASE 3 -->
+      <div class="week-col">W5–6</div>
+      <div class="phase-card f3" id="card-3">
+        <div class="phase-header" onclick="toggleCard(3)">
+          <div class="phase-num">03</div>
+          <div class="phase-title-wrap">
+            <div class="phase-title">Geo-Distributed Testnet</div>
+            <div class="phase-subtitle">6 node lintas benua — Bangalore · Singapore · Australia · London · New York · Amsterdam</div>
+          </div>
+          <div class="phase-weeks">Minggu 5–6</div>
+          <div class="phase-toggle">▼</div>
+        </div>
+        <div class="phase-body">
+          <div class="body-section">
+            <div class="body-label">Rincian per Minggu</div>
+            <div class="week-detail-grid">
+              <div class="week-box">
+                <div class="week-box-title"><span class="week-dot" style="background:var(--coral)"></span>Minggu 5</div>
+                <ul>
+                  <li>Provision 6 VPS di 6 region berbeda</li>
+                  <li>Deploy node Cosmos di tiap server</li>
+                  <li>Konfigurasi persistent peers antar node</li>
+                  <li>Verifikasi sync semua node ke genesis</li>
+                  <li>Ukur baseline latency antar region</li>
+                </ul>
+              </div>
+              <div class="week-box">
+                <div class="week-box-title"><span class="week-dot" style="background:var(--coral)"></span>Minggu 6</div>
+                <ul>
+                  <li>Simulasi 1 node offline (dropout test)</li>
+                  <li>Simulasi 2 node offline sekaligus</li>
+                  <li>IBC transfer antar region</li>
+                  <li>Rekam block time saat node mati &amp; recovery</li>
+                  <li>Uji network partition (split-brain scenario)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="body-section">
+            <div class="body-label">Skenario Pengujian</div>
+            <table class="test-table">
+              <thead><tr><th>ID</th><th>Skenario</th><th>Input</th><th>Expected Output</th><th>Metrik</th></tr></thead>
+              <tbody>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--coral)">T3-01</td><td>Semua 6 node sync</td><td>Genesis identik, start bersamaan</td><td>Semua node di block height sama</td><td>Sync &lt; 5 menit</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--coral)">T3-02</td><td>Konsensus lintas benua</td><td>Normal tx workload</td><td>Block diproduksi konsisten</td><td>Block time &lt; 3s</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--coral)">T3-03</td><td>1 validator offline</td><td>Matikan node Singapore</td><td>Chain tetap berjalan (5/6 nodes)</td><td>No halt, &lt; 2x block time</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--coral)">T3-04</td><td>2 validator offline</td><td>Matikan NY + London</td><td>Chain tetap berjalan (4/6 nodes)</td><td>No halt jika &lt; ⅓ VP</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--coral)">T3-05</td><td>Node recovery &amp; resync</td><td>Nyalakan ulang node mati</td><td>Sync otomatis, no fork</td><td>Recovery &lt; 60s</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--coral)">T3-06</td><td>IBC transfer cross-region</td><td>Transfer token BLR → AMS</td><td>Token sampai di chain tujuan</td><td>IBC relay &lt; 30s</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--coral)">T3-07</td><td>Network partition (split)</td><td>Isolasi node Asia vs Eropa</td><td>Chain halt jika &lt; 2/3 VP, resume saat rejoin</td><td>No double-sign</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="spacer"></div>
+
+      <!-- FASE 4 -->
+      <div class="week-col">W7–8</div>
+      <div class="phase-card f4" id="card-4">
+        <div class="phase-header" onclick="toggleCard(4)">
+          <div class="phase-num">04</div>
+          <div class="phase-title-wrap">
+            <div class="phase-title">Stress Test Realistik</div>
+            <div class="phase-subtitle">Beban transaksi tinggi dari 6 region · target &gt; 300 TPS sustained</div>
+          </div>
+          <div class="phase-weeks">Minggu 7–8</div>
+          <div class="phase-toggle">▼</div>
+        </div>
+        <div class="phase-body">
+          <div class="body-section">
+            <div class="body-label">Rincian per Minggu</div>
+            <div class="week-detail-grid">
+              <div class="week-box">
+                <div class="week-box-title"><span class="week-dot" style="background:var(--amber)"></span>Minggu 7</div>
+                <ul>
+                  <li>Setup tm-load-test di tiap region</li>
+                  <li>Warm-up test: 50 TPS selama 5 menit</li>
+                  <li>Ramp-up: 100 → 200 → 300 → 500 TPS</li>
+                  <li>Rekam metrik: TPS aktual, block time, mempool size</li>
+                </ul>
+              </div>
+              <div class="week-box">
+                <div class="week-box-title"><span class="week-dot" style="background:var(--amber)"></span>Minggu 8</div>
+                <ul>
+                  <li>Sustained 300 TPS selama 5 menit penuh</li>
+                  <li>Double spend attack simulation</li>
+                  <li>Stress test saat 1 node down bersamaan</li>
+                  <li>Analisis bottleneck &amp; tuning parameter</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="body-section">
+            <div class="body-label">Konfigurasi Load Test</div>
+            <div class="code-block">
+<span class="c-muted"># Jalankan dari tiap region secara bersamaan</span>
+<span class="c-green">tm-load-test</span> \<br>
+&nbsp;&nbsp;--endpoints <span class="c-amber">ws://bangalore:26657/websocket,ws://singapore:26657/websocket</span> \<br>
+&nbsp;&nbsp;--broadcast-tx-method <span class="c-purple">async</span> \<br>
+&nbsp;&nbsp;--rate <span class="c-amber">500</span> \         <span class="c-muted"># 500 tx/detik</span><br>
+&nbsp;&nbsp;--size <span class="c-amber">250</span> \         <span class="c-muted"># 250 bytes/tx</span><br>
+&nbsp;&nbsp;--time <span class="c-amber">300</span> \         <span class="c-muted"># 5 menit</span><br>
+&nbsp;&nbsp;--output-file results/stress-$(date +%Y%m%d).csv
+            </div>
+          </div>
+          <div class="body-section">
+            <div class="body-label">Skenario Pengujian</div>
+            <table class="test-table">
+              <thead><tr><th>ID</th><th>Skenario</th><th>Input</th><th>Expected Output</th><th>Metrik</th></tr></thead>
+              <tbody>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--amber)">T4-01</td><td>Ramp-up TPS</td><td>100→300→500 TPS bertahap</td><td>Chain stabil di tiap level</td><td>Tidak ada block halt</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--amber)">T4-02</td><td>Sustained 300 TPS 5 menit</td><td>300 tx/s konstan 300 detik</td><td>Semua tx ter-commit</td><td>TPS aktual &gt; 300</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--amber)">T4-03</td><td>Peak 500 TPS 1 menit</td><td>500 tx/s selama 60 detik</td><td>Chain tidak crash, mempool draining</td><td>Block time &lt; 6s</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--amber)">T4-04</td><td>Double spend attempt</td><td>Kirim tx sama dari 2 node berbeda</td><td>Hanya 1 yang diterima</td><td>0% double spend lolos</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--amber)">T4-05</td><td>Stress + 1 node down</td><td>300 TPS + matikan Amsterdam</td><td>Chain tetap jalan, TPS turun &lt; 20%</td><td>No halt</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--amber)">T4-06</td><td>Mempool overflow</td><td>Kirim tx lebih cepat dari block capacity</td><td>Tx antri, tidak ada tx hilang</td><td>0 tx drop</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <div class="spacer"></div>
+
+      <!-- FASE 5 -->
+      <div class="week-col">W9–10</div>
+      <div class="phase-card f5" id="card-5">
+        <div class="phase-header" onclick="toggleCard(5)">
+          <div class="phase-num">05</div>
+          <div class="phase-title-wrap">
+            <div class="phase-title">Governance &amp; Mesh Resilience</div>
+            <div class="phase-subtitle">Voting on-chain · blokade simulasi · auto-recovery · final validation</div>
+          </div>
+          <div class="phase-weeks">Minggu 9–10</div>
+          <div class="phase-toggle">▼</div>
+        </div>
+        <div class="phase-body">
+          <div class="body-section">
+            <div class="body-label">Rincian per Minggu</div>
+            <div class="week-detail-grid">
+              <div class="week-box">
+                <div class="week-box-title"><span class="week-dot" style="background:var(--blue)"></span>Minggu 9</div>
+                <ul>
+                  <li>Submit governance proposal parameter change</li>
+                  <li>Simulasi voting dari 6 region berbeda</li>
+                  <li>Verifikasi proposal passed &amp; parameter updated</li>
+                  <li>Uji quorum tidak tercapai → proposal gagal</li>
+                </ul>
+              </div>
+              <div class="week-box">
+                <div class="week-box-title"><span class="week-dot" style="background:var(--blue)"></span>Minggu 10</div>
+                <ul>
+                  <li>Simulasi internet blokade 2 node sekaligus</li>
+                  <li>Verifikasi auto-recovery saat node online kembali</li>
+                  <li>Final end-to-end test semua modul</li>
+                  <li>Kompilasi laporan &amp; sign-off checklist</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="body-section">
+            <div class="body-label">Skenario Pengujian</div>
+            <table class="test-table">
+              <thead><tr><th>ID</th><th>Skenario</th><th>Input</th><th>Expected Output</th><th>Metrik</th></tr></thead>
+              <tbody>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--blue)">T5-01</td><td>Submit proposal on-chain</td><td>Proposal parameter change dari node BLR</td><td>Proposal muncul di semua node</td><td>Visible &lt; 1 blok</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--blue)">T5-02</td><td>Vote dari 6 region</td><td>Tiap node vote YES/NO/ABSTAIN</td><td>Semua vote terekam on-chain</td><td>100% terhitung</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--blue)">T5-03</td><td>Proposal passed</td><td>Quorum tercapai, YES &gt; threshold</td><td>Parameter terupdate otomatis</td><td>Aktif dalam 1 blok</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--blue)">T5-04</td><td>Proposal rejected</td><td>Quorum tidak tercapai</td><td>Parameter tidak berubah</td><td>State konsisten</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--blue)">T5-05</td><td>Blokade NY + London</td><td>Putus 2 node Barat dari internet</td><td>Chain tetap jalan via Asia + AMS</td><td>No halt</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--blue)">T5-06</td><td>Auto-recovery 2 node</td><td>NY + London kembali online</td><td>Sync otomatis, state identik</td><td>Recovery &lt; 60s</td></tr>
+                <tr><td style="font-family:var(--mono);font-size:11px;color:var(--blue)">T5-07</td><td>End-to-end final test</td><td>Semua modul berjalan bersamaan</td><td>Tidak ada degradasi performa</td><td>TPS &gt; 250 sustained</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════ NODES ══════════════════════════════ -->
+  <div id="sec-nodes" class="section">
+    <div class="topbar">
+      <div class="topbar-title">Setup infrastruktur 6 node global</div>
+    </div>
+    <div class="node-grid">
+      <div class="node-card">
+        <div class="node-flag">🇮🇳</div>
+        <div class="node-name">Bangalore</div>
+        <div class="node-region">South Asia · India</div>
+        <div class="node-role role-validator">Validator</div>
+        <div class="node-provider">DigitalOcean BLR1</div>
+        <div style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--muted)">
+          CPU: 4 vCPU · RAM: 8GB<br>
+          Disk: 100GB SSD · Port: 26656
+        </div>
+      </div>
+      <div class="node-card">
+        <div class="node-flag">🇸🇬</div>
+        <div class="node-name">Singapore</div>
+        <div class="node-region">Southeast Asia</div>
+        <div class="node-role role-validator">Validator</div>
+        <div class="node-provider">DigitalOcean SGP1</div>
+        <div style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--muted)">
+          CPU: 4 vCPU · RAM: 8GB<br>
+          Disk: 100GB SSD · Port: 26656
+        </div>
+      </div>
+      <div class="node-card">
+        <div class="node-flag">🇦🇺</div>
+        <div class="node-name">Australia</div>
+        <div class="node-region">Oceania · Sydney</div>
+        <div class="node-role role-observer">Observer</div>
+        <div class="node-provider">DigitalOcean SYD1</div>
+        <div style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--muted)">
+          CPU: 2 vCPU · RAM: 4GB<br>
+          Disk: 80GB SSD · Port: 26656
+        </div>
+      </div>
+      <div class="node-card">
+        <div class="node-flag">🇬🇧</div>
+        <div class="node-name">London</div>
+        <div class="node-region">United Kingdom · EU</div>
+        <div class="node-role role-validator">Validator</div>
+        <div class="node-provider">DigitalOcean LON1</div>
+        <div style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--muted)">
+          CPU: 4 vCPU · RAM: 8GB<br>
+          Disk: 100GB SSD · Port: 26656
+        </div>
+      </div>
+      <div class="node-card">
+        <div class="node-flag">🇺🇸</div>
+        <div class="node-name">New York</div>
+        <div class="node-region">USA East Coast</div>
+        <div class="node-role role-validator">Validator</div>
+        <div class="node-provider">DigitalOcean NYC1</div>
+        <div style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--muted)">
+          CPU: 4 vCPU · RAM: 8GB<br>
+          Disk: 100GB SSD · Port: 26656
+        </div>
+      </div>
+      <div class="node-card">
+        <div class="node-flag">🇳🇱</div>
+        <div class="node-name">Amsterdam</div>
+        <div class="node-region">Netherlands · EU West</div>
+        <div class="node-role role-validator">Validator</div>
+        <div class="node-provider">DigitalOcean AMS3</div>
+        <div style="margin-top:10px;font-family:var(--mono);font-size:11px;color:var(--muted)">
+          CPU: 4 vCPU · RAM: 8GB<br>
+          Disk: 100GB SSD · Port: 26656
+        </div>
+      </div>
+    </div>
+
+    <div class="body-label" style="margin-top:24px">Estimasi Latency Antar Node (RTT)</div>
+    <table class="test-table" style="margin-top:12px">
+      <thead><tr><th>Dari</th><th>Ke</th><th>Est. RTT</th><th>Dampak Konsensus</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Singapore</td><td>Bangalore</td><td style="font-family:var(--mono);color:var(--green)">~40ms</td><td>Minimal</td><td><span class="tag tag-pass">OK</span></td></tr>
+        <tr><td>Singapore</td><td>Australia</td><td style="font-family:var(--mono);color:var(--green)">~80ms</td><td>Rendah</td><td><span class="tag tag-pass">OK</span></td></tr>
+        <tr><td>London</td><td>Amsterdam</td><td style="font-family:var(--mono);color:var(--green)">~10ms</td><td>Negligible</td><td><span class="tag tag-pass">OK</span></td></tr>
+        <tr><td>London</td><td>New York</td><td style="font-family:var(--mono);color:var(--green)">~75ms</td><td>Rendah</td><td><span class="tag tag-pass">OK</span></td></tr>
+        <tr><td>New York</td><td>Bangalore</td><td style="font-family:var(--mono);color:var(--amber)">~185ms</td><td>Sedang</td><td><span class="tag tag-warn">Monitor</span></td></tr>
+        <tr><td>Amsterdam</td><td>Singapore</td><td style="font-family:var(--mono);color:var(--amber)">~165ms</td><td>Sedang</td><td><span class="tag tag-warn">Monitor</span></td></tr>
+        <tr><td>New York</td><td>Australia</td><td style="font-family:var(--mono);color:var(--amber)">~210ms</td><td>Sedang-Tinggi</td><td><span class="tag tag-warn">Monitor</span></td></tr>
+        <tr><td>London</td><td>Australia</td><td style="font-family:var(--mono);color:var(--coral)">~265ms</td><td>Tinggi</td><td><span class="tag tag-info">Observer only</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══════════════════════════════ METRICS ══════════════════════════════ -->
+  <div id="sec-metrics" class="section">
+    <div class="topbar">
+      <div class="topbar-title">Parameter metrik &amp; threshold keberhasilan per fase</div>
+    </div>
+
+    <div class="body-label">Fase 1 — Local Devnet</div>
+    <div class="metric-grid">
+      <div class="metric-card"><div class="metric-label">Block Time</div><div class="metric-value" style="color:var(--teal)">&lt; 2s</div><div class="metric-sub">target normal</div><div class="metric-fail">gagal: &gt; 5s</div></div>
+      <div class="metric-card"><div class="metric-label">Miss Rate</div><div class="metric-value" style="color:var(--teal)">&lt; 0.1%</div><div class="metric-sub">per validator</div><div class="metric-fail">gagal: &gt; 1%</div></div>
+      <div class="metric-card"><div class="metric-label">Blok Target</div><div class="metric-value" style="color:var(--teal)">1000+</div><div class="metric-sub">tanpa fork</div><div class="metric-fail">gagal: ada fork</div></div>
+      <div class="metric-card"><div class="metric-label">Finality</div><div class="metric-value" style="color:var(--teal)">&lt; 6s</div><div class="metric-sub">per transaksi</div><div class="metric-fail">gagal: &gt; 15s</div></div>
+      <div class="metric-card"><div class="metric-label">Validator Up</div><div class="metric-value" style="color:var(--teal)">4/4</div><div class="metric-sub">semua aktif</div><div class="metric-fail">gagal: &lt; 3/4</div></div>
+      <div class="metric-card"><div class="metric-label">Tx Success</div><div class="metric-value" style="color:var(--teal)">100%</div><div class="metric-sub">basic transfer</div><div class="metric-fail">gagal: &lt; 99%</div></div>
+    </div>
+
+    <div class="body-label" style="margin-top:16px">Fase 2 — Identity Module</div>
+    <div class="metric-grid">
+      <div class="metric-card"><div class="metric-label">Verify Latency</div><div class="metric-value" style="color:var(--purple)">&lt; 300ms</div><div class="metric-sub">per verifikasi</div><div class="metric-fail">gagal: &gt; 1s</div></div>
+      <div class="metric-card"><div class="metric-label">Duplikasi Tolak</div><div class="metric-value" style="color:var(--purple)">100%</div><div class="metric-sub">zero bypass</div><div class="metric-fail">gagal: ada yg lolos</div></div>
+      <div class="metric-card"><div class="metric-label">Sig Invalid Tolak</div><div class="metric-value" style="color:var(--purple)">100%</div><div class="metric-sub">zero false accept</div><div class="metric-fail">gagal: ada lolos</div></div>
+      <div class="metric-card"><div class="metric-label">Revoke Efektif</div><div class="metric-value" style="color:var(--purple)">&lt; 2 blok</div><div class="metric-sub">setelah tx</div><div class="metric-fail">gagal: &gt; 5 blok</div></div>
+      <div class="metric-card"><div class="metric-label">Concurrent Reg</div><div class="metric-value" style="color:var(--purple)">50 tx</div><div class="metric-sub">0 konflik</div><div class="metric-fail">gagal: ada collision</div></div>
+    </div>
+
+    <div class="body-label" style="margin-top:16px">Fase 3 — Geo-Distributed</div>
+    <div class="metric-grid">
+      <div class="metric-card"><div class="metric-label">Sync Time</div><div class="metric-value" style="color:var(--coral)">&lt; 5 mnt</div><div class="metric-sub">6 node ke genesis</div><div class="metric-fail">gagal: &gt; 15 mnt</div></div>
+      <div class="metric-card"><div class="metric-label">Block Time (dist.)</div><div class="metric-value" style="color:var(--coral)">&lt; 3s</div><div class="metric-sub">lintas benua</div><div class="metric-fail">gagal: &gt; 6s</div></div>
+      <div class="metric-card"><div class="metric-label">1 Node Down</div><div class="metric-value" style="color:var(--coral)">No halt</div><div class="metric-sub">chain terus jalan</div><div class="metric-fail">gagal: block halt</div></div>
+      <div class="metric-card"><div class="metric-label">Recovery</div><div class="metric-value" style="color:var(--coral)">&lt; 60s</div><div class="metric-sub">node kembali sync</div><div class="metric-fail">gagal: &gt; 5 mnt</div></div>
+      <div class="metric-card"><div class="metric-label">IBC Relay</div><div class="metric-value" style="color:var(--coral)">&lt; 30s</div><div class="metric-sub">cross-region transfer</div><div class="metric-fail">gagal: &gt; 2 mnt</div></div>
+      <div class="metric-card"><div class="metric-label">Double-sign</div><div class="metric-value" style="color:var(--coral)">0</div><div class="metric-sub">saat split-brain</div><div class="metric-fail">gagal: ada</div></div>
+    </div>
+
+    <div class="body-label" style="margin-top:16px">Fase 4 — Stress Test</div>
+    <div class="metric-grid">
+      <div class="metric-card"><div class="metric-label">TPS Sustained</div><div class="metric-value" style="color:var(--amber)">&gt; 300</div><div class="metric-sub">selama 5 menit</div><div class="metric-fail">gagal: &lt; 100</div></div>
+      <div class="metric-card"><div class="metric-label">TPS Peak</div><div class="metric-value" style="color:var(--amber)">500</div><div class="metric-sub">1 menit burst</div><div class="metric-fail">gagal: crash</div></div>
+      <div class="metric-card"><div class="metric-label">Block Time (load)</div><div class="metric-value" style="color:var(--amber)">&lt; 4s</div><div class="metric-sub">saat high load</div><div class="metric-fail">gagal: &gt; 8s</div></div>
+      <div class="metric-card"><div class="metric-label">Missed Blocks</div><div class="metric-value" style="color:var(--amber)">&lt; 1%</div><div class="metric-sub">semua validator</div><div class="metric-fail">gagal: &gt; 5%</div></div>
+      <div class="metric-card"><div class="metric-label">Double Spend</div><div class="metric-value" style="color:var(--amber)">0%</div><div class="metric-sub">tidak ada lolos</div><div class="metric-fail">gagal: ada lolos</div></div>
+      <div class="metric-card"><div class="metric-label">Tx Drop</div><div class="metric-value" style="color:var(--amber)">0</div><div class="metric-sub">no tx hilang</div><div class="metric-fail">gagal: ada drop</div></div>
+    </div>
+
+    <div class="body-label" style="margin-top:16px">Fase 5 — Governance &amp; Resilience</div>
+    <div class="metric-grid">
+      <div class="metric-card"><div class="metric-label">Proposal Visible</div><div class="metric-value" style="color:var(--blue)">&lt; 1 blok</div><div class="metric-sub">semua node</div><div class="metric-fail">gagal: &gt; 3 blok</div></div>
+      <div class="metric-card"><div class="metric-label">Vote Terhitung</div><div class="metric-value" style="color:var(--blue)">100%</div><div class="metric-sub">dari 6 node</div><div class="metric-fail">gagal: ada hilang</div></div>
+      <div class="metric-card"><div class="metric-label">Param Update</div><div class="metric-value" style="color:var(--blue)">&lt; 1 blok</div><div class="metric-sub">setelah passed</div><div class="metric-fail">gagal: tidak update</div></div>
+      <div class="metric-card"><div class="metric-label">Blokade 2 node</div><div class="metric-value" style="color:var(--blue)">No halt</div><div class="metric-sub">chain terus</div><div class="metric-fail">gagal: halt</div></div>
+      <div class="metric-card"><div class="metric-label">Auto-Recovery</div><div class="metric-value" style="color:var(--blue)">&lt; 60s</div><div class="metric-sub">2 node kembali</div><div class="metric-fail">gagal: &gt; 5 mnt</div></div>
+      <div class="metric-card"><div class="metric-label">Final E2E TPS</div><div class="metric-value" style="color:var(--blue)">&gt; 250</div><div class="metric-sub">semua modul aktif</div><div class="metric-fail">gagal: &lt; 100</div></div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════ CHECKLIST ══════════════════════════════ -->
+  <div id="sec-checklist" class="section">
+    <div class="topbar">
+      <div class="topbar-title">Klik item untuk tandai selesai</div>
+      <div class="topbar-actions">
+        <button class="reset-btn" onclick="resetAll()">Reset semua</button>
+        <button class="export-btn" onclick="exportChecklist()">Export status</button>
+      </div>
+    </div>
+
+    <div class="check-summary">
+      <div class="check-summary-label">Progress keseluruhan</div>
+      <div class="check-summary-bar"><div class="check-summary-fill" id="progress-bar" style="width:0%"></div></div>
+      <div class="check-summary-count" id="progress-count">0 / 30</div>
+    </div>
+
+    <div class="checklist-grid" id="checklist-container">
+
+      <div class="checklist-phase f1">
+        <div class="checklist-phase-header">
+          <span>01</span> Local Devnet
+        </div>
+        <div class="checklist-phase-body">
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">1000+ blok tanpa fork</div><span class="check-param">block height ≥ 1000 · 0 fork event</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Block time konsisten</div><span class="check-param">avg &lt; 2s · max &lt; 5s</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">4/4 validator aktif</div><span class="check-param">miss rate &lt; 0.1% per validator</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">DPoS rotation berhasil</div><span class="check-param">masuk &amp; keluar validator set</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Transfer token sukses</div><span class="check-param">finality &lt; 6s · saldo akurat</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Governance proposal berjalan</div><span class="check-param">submit → vote → eksekusi</span></div></div>
+        </div>
+      </div>
+
+      <div class="checklist-phase f2">
+        <div class="checklist-phase-header">
+          <span>02</span> Identity Module
+        </div>
+        <div class="checklist-phase-body">
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Registrasi identitas on-chain</div><span class="check-param">latency &lt; 300ms · tersimpan</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Anti-double identity</div><span class="check-param">100% duplikasi ditolak · 0 lolos</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Signature valid diterima</div><span class="check-param">pass rate 100%</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Signature invalid ditolak</div><span class="check-param">0% false accept</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Revoke identitas efektif</div><span class="check-param">aktif &lt; 2 blok setelah tx</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">50 registrasi simultan</div><span class="check-param">0 konflik · semua sukses</span></div></div>
+        </div>
+      </div>
+
+      <div class="checklist-phase f3">
+        <div class="checklist-phase-header">
+          <span>03</span> Geo-Distributed
+        </div>
+        <div class="checklist-phase-body">
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">6 node sync genesis</div><span class="check-param">semua node di height sama &lt; 5 mnt</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Block time lintas benua</div><span class="check-param">avg &lt; 3s saat normal load</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">1 node offline: no halt</div><span class="check-param">chain jalan · block time &lt; 2x</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">2 node offline: no halt</div><span class="check-param">chain jalan jika &lt; ⅓ voting power</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Node recovery otomatis</div><span class="check-param">&lt; 60s · no fork · state identik</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">IBC transfer cross-region</div><span class="check-param">relay &lt; 30s · token sampai</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Zero double-sign</div><span class="check-param">saat split-brain &amp; recovery</span></div></div>
+        </div>
+      </div>
+
+      <div class="checklist-phase f4">
+        <div class="checklist-phase-header">
+          <span>04</span> Stress Test
+        </div>
+        <div class="checklist-phase-body">
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">300+ TPS sustained 5 menit</div><span class="check-param">aktual &gt; 300 selama 300 detik</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Peak 500 TPS 1 menit</div><span class="check-param">tidak crash · mempool draining</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Block time &lt; 4s saat load</div><span class="check-param">max &lt; 8s · tidak ada halt</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Missed blocks &lt; 1%</div><span class="check-param">semua validator selama stress test</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Zero double spend</div><span class="check-param">0% lolos · semua attempt ditolak</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Zero tx drop</div><span class="check-param">mempool overflow handled gracefully</span></div></div>
+        </div>
+      </div>
+
+      <div class="checklist-phase f5" style="grid-column: span 1">
+        <div class="checklist-phase-header">
+          <span>05</span> Governance &amp; Resilience
+        </div>
+        <div class="checklist-phase-body">
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Proposal visible semua node</div><span class="check-param">&lt; 1 blok setelah submit</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">100% vote terhitung</div><span class="check-param">dari 6 node · tidak ada hilang</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Proposal passed → param update</div><span class="check-param">otomatis &lt; 1 blok · tanpa admin</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Blokade 2 node: no halt</div><span class="check-param">NY + London offline · chain jalan</span></div></div>
+          <div class="check-item" onclick="toggle(this)"><div class="check-box">✓</div><div><div class="check-text">Auto-recovery &lt; 60s</div><span class="check-param">2 node kembali · no fork · state sync</span></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function switchTab(id) {
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('sec-' + id).classList.add('active');
+}
+
+function toggleCard(n) {
+  const c = document.getElementById('card-' + n);
+  c.classList.toggle('open');
+}
+
+function toggle(el) {
+  el.classList.toggle('checked');
+  updateProgress();
+}
+
+function updateProgress() {
+  const all = document.querySelectorAll('.check-item');
+  const done = document.querySelectorAll('.check-item.checked');
+  const pct = all.length ? (done.length / all.length * 100) : 0;
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('progress-count').textContent = done.length + ' / ' + all.length;
+}
+
+function resetAll() {
+  document.querySelectorAll('.check-item').forEach(el => el.classList.remove('checked'));
+  updateProgress();
+}
+
+function exportChecklist() {
+  const lines = ['Blockchain Project — Checklist Status', '=' .repeat(40)];
+  let phase = '';
+  document.querySelectorAll('.checklist-phase').forEach(p => {
+    const h = p.querySelector('.checklist-phase-header').textContent.trim();
+    lines.push('\n[ ' + h + ' ]');
+    p.querySelectorAll('.check-item').forEach(item => {
+      const done = item.classList.contains('checked');
+      const txt = item.querySelector('.check-text').textContent.trim();
+      const param = item.querySelector('.check-param').textContent.trim();
+      lines.push((done ? '[✓] ' : '[ ] ') + txt + ' · ' + param);
+    });
+  });
+  const done = document.querySelectorAll('.check-item.checked').length;
+  const all = document.querySelectorAll('.check-item').length;
+  lines.push('\nProgress: ' + done + '/' + all + ' (' + Math.round(done/all*100) + '%)');
+  const blob = new Blob([lines.join('\n')], {type: 'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'blockchain-checklist.txt';
+  a.click();
+}
+
+updateProgress();
+</script>
+</body>
+</html>
